@@ -575,16 +575,274 @@
       .about-tech { flex-direction: column; }
     }
 
-    /* Fade-in animation */
+    /* === Animations === */
+
+    /* Base reveal animations */
+    [data-animate] {
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    [data-animate].visible { opacity: 1; transform: none; }
+
+    /* Directional reveals */
+    [data-animate="fade-up"] { transform: translateY(60px); }
+    [data-animate="fade-down"] { transform: translateY(-40px); }
+    [data-animate="fade-left"] { transform: translateX(60px); }
+    [data-animate="fade-right"] { transform: translateX(-60px); }
+    [data-animate="fade-in"] { transform: scale(0.95); }
+    [data-animate="zoom-in"] { transform: scale(0.8); }
+
+    /* Stagger children delays */
+    [data-stagger] > [data-animate]:nth-child(1) { transition-delay: 0ms; }
+    [data-stagger] > [data-animate]:nth-child(2) { transition-delay: 120ms; }
+    [data-stagger] > [data-animate]:nth-child(3) { transition-delay: 240ms; }
+    [data-stagger] > [data-animate]:nth-child(4) { transition-delay: 360ms; }
+    [data-stagger] > [data-animate]:nth-child(5) { transition-delay: 480ms; }
+    [data-stagger] > [data-animate]:nth-child(6) { transition-delay: 600ms; }
+    [data-stagger] > [data-animate]:nth-child(7) { transition-delay: 720ms; }
+
+    /* Legacy support */
     .fade-in {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
+    .fade-in.visible { opacity: 1; transform: none; }
+
+    /* Hero entrance animations */
+    @keyframes heroTitleIn {
+      from { opacity: 0; letter-spacing: 20px; filter: blur(8px); }
+      to { opacity: 1; letter-spacing: 6px; filter: blur(0); }
     }
+    @keyframes heroLineExpand {
+      from { width: 0; opacity: 0; }
+      to { width: 60px; opacity: 1; }
+    }
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroBgZoom {
+      from { transform: scale(1.1); }
+      to { transform: scale(1); }
+    }
+    @keyframes heroNavSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroLabelSlide {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-bg {
+      animation: heroBgZoom 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      transform: scale(1.1);
+    }
+    .hero-nav {
+      animation: heroNavSlide 1s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+    .hero-title {
+      animation: heroTitleIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+    }
+    .hero-line {
+      animation: heroLineExpand 1s cubic-bezier(0.22, 1, 0.36, 1) 1.2s both;
+    }
+    .hero-subtitle {
+      animation: heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.5s both;
+    }
+    .hero-cta {
+      animation: heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 1.8s both;
+    }
+    .hero-labels {
+      animation: heroLabelSlide 1s cubic-bezier(0.22, 1, 0.36, 1) 2s both;
+    }
+
+    /* Parallax on hero bg */
+    .hero-bg { will-change: transform; }
+
+    /* Counter animation */
+    .stat-num { display: inline-block; }
+    @keyframes countPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .stat-num.counted { animation: countPulse 0.4s ease; }
+
+    /* Philosophy quote reveal */
+    @keyframes quoteReveal {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(4px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    .philosophy-content [data-animate].visible {
+      animation: quoteReveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Bento card hover effects */
+    .bento-card {
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .bento-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(45, 41, 38, 0.12);
+    }
+
+    /* Blog card hover */
+    .blog-card {
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                  box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .blog-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(45, 41, 38, 0.1);
+    }
+    .blog-card-img img {
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .blog-card:hover .blog-card-img img {
+      transform: scale(1.08);
+    }
+
+    /* Project image hover */
+    .project-img {
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .project-img img {
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .project-row:hover .project-img img {
+      transform: scale(1.06);
+    }
+
+    /* Tweet card hover */
+    .tweet-card {
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    .tweet-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+    }
+
+    /* CTA button pulse */
+    @keyframes gentlePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(45, 41, 38, 0.3); }
+      50% { box-shadow: 0 0 0 12px rgba(45, 41, 38, 0); }
+    }
+    .cta-btn:hover { animation: gentlePulse 2s infinite; }
+
+    /* Timeline milestone animation */
+    .milestone {
+      transition: transform 0.4s ease;
+    }
+    .milestone:hover {
+      transform: translateX(8px);
+    }
+    .milestone-line {
+      position: relative;
+      overflow: hidden;
+    }
+    .milestone-line::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 0;
+      background: var(--accent);
+      transition: height 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .milestone.visible .milestone-line::after { height: 100%; }
+
+    /* Accent link hover underline */
+    .accent-link {
+      position: relative;
+      display: inline-block;
+    }
+    .accent-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .accent-link:hover::after { width: 100%; }
+
+    /* Nav link hover */
+    .hero-nav-links a {
+      position: relative;
+    }
+    .hero-nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: var(--fg-inverse);
+      transition: width 0.3s ease;
+    }
+    .hero-nav-links a:hover::after { width: 100%; }
+
+    /* About photo hover */
+    .about-photo {
+      overflow: hidden;
+    }
+    .about-photo img {
+      transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .about-photo:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Smooth scroll indicator */
+    @keyframes scrollBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+    .scroll-indicator {
+      position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
+      z-index: 10;
+      animation: scrollBounce 2s ease-in-out infinite;
+      opacity: 0;
+      animation: heroFadeUp 1s ease 2.5s both, scrollBounce 2s ease-in-out 3.5s infinite;
+    }
+
+    /* Footer link hover */
+    .footer-col a { position: relative; display: inline-block; }
+    .footer-col a::after {
+      content: '';
+      position: absolute; bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: var(--fg-inverse);
+      transition: width 0.3s ease;
+    }
+    .footer-col a:hover::after { width: 100%; }
+
+    /* Diamond spin on scroll */
+    .diamond-icon {
+      transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .diamond-icon.visible {
+      animation: diamondSpin 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes diamondSpin {
+      from { transform: rotate(0deg) scale(0.5); opacity: 0; }
+      to { transform: rotate(180deg) scale(1); opacity: 1; }
+    }
+
+    /* Social links hover */
+    .cta-social {
+      transition: transform 0.3s ease, color 0.3s ease;
+    }
+    .cta-social:hover {
+      transform: translateY(-3px);
+      color: var(--accent);
+    }
+
+    /* Page loading animation */
+    body { opacity: 0; animation: pageIn 0.6s ease 0.1s forwards; }
+    @keyframes pageIn { to { opacity: 1; } }
   </style>
 </head>
 <body>
@@ -615,29 +873,32 @@
       <span class="hero-label-div"></span>
       <span class="hero-label">OPEN SOURCE</span>
     </div>
+    <div class="scroll-indicator">
+      <i data-lucide="chevron-down" style="width:24px;height:24px;color:var(--fg-inverse);opacity:0.6;"></i>
+    </div>
   </section>
 
   <!-- About -->
-  <section class="about fade-in" id="about">
-    <div class="about-photo">
+  <section class="about" id="about">
+    <div class="about-photo" data-animate="fade-right">
       <img src="https://images.unsplash.com/photo-1759541453742-086a8511482f?w=600&q=80" alt="Workspace">
     </div>
-    <div class="about-text">
-      <span class="eyebrow">ABOUT</span>
-      <h2 class="about-headline">Crafting Digital Experiences with Purpose</h2>
-      <p class="about-para">I'm Ethan Lane, a full-stack engineer based in Wuhan, China. Currently at Simen AI, I build AI-powered developer tools that transform how people work with code.</p>
-      <p class="about-para">My passion lies at the intersection of elegant interfaces and intelligent automation &mdash; from Electron desktop apps to LangChain-powered AI agents. I believe great tools should feel invisible.</p>
-      <div class="about-divider"></div>
-      <div class="about-tech">
-        <div class="about-tech-item">
+    <div class="about-text" data-animate="fade-left">
+      <span class="eyebrow" data-animate="fade-up">ABOUT</span>
+      <h2 class="about-headline" data-animate="fade-up">Crafting Digital Experiences with Purpose</h2>
+      <p class="about-para" data-animate="fade-up">I'm Ethan Lane, a full-stack engineer based in Wuhan, China. Currently at Simen AI, I build AI-powered developer tools that transform how people work with code.</p>
+      <p class="about-para" data-animate="fade-up">My passion lies at the intersection of elegant interfaces and intelligent automation &mdash; from Electron desktop apps to LangChain-powered AI agents. I believe great tools should feel invisible.</p>
+      <div class="about-divider" data-animate="fade-up"></div>
+      <div class="about-tech" data-stagger>
+        <div class="about-tech-item" data-animate="fade-up">
           <span class="about-tech-label">FRONTEND</span>
           <span class="about-tech-value">React, Vue, TypeScript</span>
         </div>
-        <div class="about-tech-item">
+        <div class="about-tech-item" data-animate="fade-up">
           <span class="about-tech-label">BACKEND</span>
           <span class="about-tech-value">Node.js, Go, NestJS</span>
         </div>
-        <div class="about-tech-item">
+        <div class="about-tech-item" data-animate="fade-up">
           <span class="about-tech-label">AI &amp; TOOLS</span>
           <span class="about-tech-value">Claude, LangChain, MCP</span>
         </div>
@@ -646,41 +907,41 @@
   </section>
 
   <!-- Stats -->
-  <section class="stats fade-in">
-    <div class="stat">
-      <span class="stat-num">1.4K+</span>
+  <section class="stats" data-stagger>
+    <div class="stat" data-animate="fade-up">
+      <span class="stat-num" data-count="1400">0</span>
       <span class="stat-label">GITHUB STARS</span>
     </div>
-    <div class="stat-div"></div>
-    <div class="stat">
-      <span class="stat-num">3+</span>
+    <div class="stat-div" data-animate="fade-in"></div>
+    <div class="stat" data-animate="fade-up">
+      <span class="stat-num" data-count="3">0</span>
       <span class="stat-label">YEARS BUILDING</span>
     </div>
-    <div class="stat-div"></div>
-    <div class="stat">
-      <span class="stat-num">20+</span>
+    <div class="stat-div" data-animate="fade-in"></div>
+    <div class="stat" data-animate="fade-up">
+      <span class="stat-num" data-count="20">0</span>
       <span class="stat-label">OPEN SOURCE REPOS</span>
     </div>
-    <div class="stat-div"></div>
-    <div class="stat">
+    <div class="stat-div" data-animate="fade-in"></div>
+    <div class="stat" data-animate="fade-up">
       <span class="stat-num">&infin;</span>
       <span class="stat-label">CURIOSITY</span>
     </div>
   </section>
 
   <!-- Projects -->
-  <section class="projects fade-in" id="projects">
-    <div class="projects-header">
+  <section class="projects" id="projects">
+    <div class="projects-header" data-animate="fade-up">
       <span class="eyebrow">WHAT I DO</span>
       <h2 class="section-title">Craft, Code &amp; Create</h2>
     </div>
-    <i data-lucide="diamond" class="diamond-icon" style="width:20px;height:20px;"></i>
+    <i data-lucide="diamond" class="diamond-icon" data-animate="zoom-in" style="width:20px;height:20px;"></i>
 
-    <div class="project-row">
-      <div class="project-img">
+    <div class="project-row" data-animate="fade-up">
+      <div class="project-img" data-animate="fade-right">
         <img src="https://images.unsplash.com/photo-1516192518150-0d8fee5425e3?w=600&q=80" alt="AI Engineering">
       </div>
-      <div class="project-text">
+      <div class="project-text" data-animate="fade-left">
         <span class="project-label">01 &mdash; AI ENGINEERING</span>
         <h3 class="project-title">Intelligent Tools That Think Ahead</h3>
         <p class="project-desc">Building AI-powered developer tools at Simen AI &mdash; from LangChain agents to MCP integrations, crafting workflows that transform how people interact with code and ideas.</p>
@@ -688,11 +949,11 @@
       </div>
     </div>
 
-    <div class="project-row reverse">
-      <div class="project-img">
+    <div class="project-row reverse" data-animate="fade-up">
+      <div class="project-img" data-animate="fade-left">
         <img src="https://images.unsplash.com/photo-1648134859175-78b41b4db186?w=600&q=80" alt="Interface Craft">
       </div>
-      <div class="project-text">
+      <div class="project-text" data-animate="fade-right">
         <span class="project-label">02 &mdash; INTERFACE CRAFT</span>
         <h3 class="project-title">Pixels with Purpose</h3>
         <p class="project-desc">Obsessed with animation-driven UX and high-polish interfaces. From React dashboards to Electron desktop apps, every pixel is placed with intention and every transition tells a story.</p>
@@ -700,11 +961,11 @@
       </div>
     </div>
 
-    <div class="project-row">
-      <div class="project-img">
+    <div class="project-row" data-animate="fade-up">
+      <div class="project-img" data-animate="fade-right">
         <img src="https://images.unsplash.com/photo-1678345201361-f070f85b62a5?w=600&q=80" alt="Open Source">
       </div>
-      <div class="project-text">
+      <div class="project-text" data-animate="fade-left">
         <span class="project-label">03 &mdash; OPEN SOURCE &amp; COMMUNITY</span>
         <h3 class="project-title">Code That Connects</h3>
         <p class="project-desc">A firm believer in open-source culture and the power of building in public. Contributing to developer communities, sharing tools freely, and connecting with builders worldwide through GitHub and beyond.</p>
@@ -714,43 +975,42 @@
   </section>
 
   <!-- Philosophy -->
-  <section class="philosophy fade-in">
+  <section class="philosophy">
     <div class="philosophy-bg"></div>
     <div class="philosophy-overlay"></div>
     <div class="philosophy-content">
-      <span class="philosophy-quote-mark">&ldquo;</span>
-      <blockquote class="philosophy-quote">The best developer tool is the one you forget you are using.</blockquote>
-      <span class="philosophy-attr">&mdash; Ethan Lane</span>
-      <div class="philosophy-line"></div>
+      <span class="philosophy-quote-mark" data-animate="fade-down">&ldquo;</span>
+      <blockquote class="philosophy-quote" data-animate="fade-up">The best developer tool is the one you forget you are using.</blockquote>
+      <span class="philosophy-attr" data-animate="fade-up">&mdash; Ethan Lane</span>
+      <div class="philosophy-line" data-animate="fade-in"></div>
     </div>
   </section>
 
   <!-- Bento Grid -->
-  <section class="bento fade-in">
-    <div class="bento-header">
+  <section class="bento">
+    <div class="bento-header" data-animate="fade-up">
       <span class="eyebrow">MY TOOLKIT</span>
       <h2 class="section-title">Tools of the Trade</h2>
     </div>
-    <div class="bento-row">
-      <div class="bento-card large large-bg">
+    <div class="bento-row" data-stagger>
+      <div class="bento-card large large-bg" data-animate="fade-up">
         <h3 class="bento-card-title" style="color:var(--fg-inverse)">Frontend &amp; UI</h3>
         <p class="bento-card-desc" style="color:var(--fg-muted)">React, Vue.js, TypeScript, Tailwind CSS, Vite &mdash; crafting interfaces that feel alive with animation-driven UX.</p>
       </div>
-      <div class="bento-card outlined">
-        <h3 class="bento-card-title">Backend</h3>
-        <p class="bento-card-list">Node.js &middot; NestJS &middot; Go &middot; PostgreSQL &middot; Prisma</p>
+      <div class="bento-card outlined" data-animate="fade-up">
+        <h3 class="bento-card-title">Backend</h3> &middot; NestJS &middot; Go &middot; PostgreSQL &middot; Prisma</p>
       </div>
     </div>
-    <div class="bento-row">
-      <div class="bento-card outlined">
+    <div class="bento-row" data-stagger>
+      <div class="bento-card outlined" data-animate="fade-up">
         <h3 class="bento-card-title">Desktop</h3>
         <p class="bento-card-list">Electron &middot; Tauri &middot; Rust &middot; macOS</p>
       </div>
-      <div class="bento-card accent-bg">
+      <div class="bento-card accent-bg" data-animate="fade-up">
         <h3 class="bento-card-title" style="color:var(--fg-inverse)">AI &amp; Agents</h3>
         <p class="bento-card-desc" style="color:rgba(245,242,233,0.8)">OpenAI, Claude, LangChain, MCP &mdash; building intelligent workflows that think ahead.</p>
       </div>
-      <div class="bento-card dark-bg">
+      <div class="bento-card dark-bg" data-animate="fade-up">
         <i data-lucide="terminal" style="width:32px;height:32px;color:var(--accent)"></i>
         <span style="font-family:var(--font-caption);font-size:13px;color:var(--fg-inverse)">VS Code API</span>
         <span style="font-family:var(--font-caption);font-size:11px;color:var(--fg-muted)">Extensions &amp; Tooling</span>
@@ -759,15 +1019,15 @@
   </section>
 
   <!-- Blog -->
-  <section class="blog fade-in" id="blog">
-    <div class="blog-header">
+  <section class="blog" id="blog">
+    <div class="blog-header" data-animate="fade-up">
       <span class="eyebrow">THOUGHTS &amp; WRITING</span>
       <h2 class="section-title">From the Workshop</h2>
       <p style="font-family:var(--font-body);font-size:17px;font-style:italic;color:var(--fg-secondary);text-align:center;max-width:520px;line-height:1.6">Notes on building tools, exploring AI, and the craft of software engineering.</p>
       <i data-lucide="diamond" class="diamond-icon" style="width:18px;height:18px;"></i>
     </div>
-    <div class="blog-grid">
-      <article class="blog-card">
+    <div class="blog-grid" data-stagger>
+      <article class="blog-card" data-animate="fade-up">
         <div class="blog-card-img">
           <img src="https://images.unsplash.com/photo-1544099858-75feeb57f01b?w=500&q=80" alt="AI Agents">
         </div>
@@ -778,7 +1038,7 @@
           <a href="#" class="accent-link">Read more &rarr;</a>
         </div>
       </article>
-      <article class="blog-card">
+      <article class="blog-card" data-animate="fade-up">
         <div class="blog-card-img">
           <img src="https://images.unsplash.com/photo-1773349807434-374473797148?w=500&q=80" alt="Electron vs Tauri">
         </div>
@@ -789,7 +1049,7 @@
           <a href="#" class="accent-link">Read more &rarr;</a>
         </div>
       </article>
-      <article class="blog-card">
+      <article class="blog-card" data-animate="fade-up">
         <div class="blog-card-img">
           <img src="https://images.unsplash.com/photo-1741310652069-da1e5ecc0109?w=500&q=80" alt="Prompt Engineering">
         </div>
@@ -801,10 +1061,10 @@
         </div>
       </article>
     </div>
-    <a href="#" class="accent-link" style="font-size:14px;letter-spacing:1px;">View all posts &rarr;</a>
+    <a href="#" class="accent-link" data-animate="fade-up" style="font-size:14px;letter-spacing:1px;">View all posts &rarr;</a>
 
     <!-- Twitter -->
-    <div class="twitter-section">
+    <div class="twitter-section" data-animate="fade-up">
       <div class="twitter-divider"></div>
       <div class="twitter-header">
         <div class="twitter-left">
@@ -813,8 +1073,8 @@
         </div>
         <a href="https://x.com/tianqian1238" target="_blank" class="accent-link">Follow on X &rarr;</a>
       </div>
-      <div class="tweets-row">
-        <div class="tweet-card">
+      <div class="tweets-row" data-stagger>
+        <div class="tweet-card" data-animate="fade-up">
           <div class="tweet-top">
             <div class="tweet-avatar"></div>
             <div>
@@ -825,7 +1085,7 @@
           <p class="tweet-content">Just shipped VibeClip-Pro v2.0 &#x1F680; AI-powered clipboard with smart categorization. The feeling when your own tool saves you 30 min/day is unmatched.</p>
           <span class="tweet-meta">2:34 PM &middot; Apr 10, 2026</span>
         </div>
-        <div class="tweet-card">
+        <div class="tweet-card" data-animate="fade-up">
           <div class="tweet-top">
             <div class="tweet-avatar"></div>
             <div>
@@ -841,13 +1101,13 @@
   </section>
 
   <!-- Timeline -->
-  <section class="timeline-section fade-in">
-    <div class="timeline-header">
+  <section class="timeline-section">
+    <div class="timeline-header" data-animate="fade-up">
       <span class="eyebrow">THE JOURNEY</span>
       <h2 class="section-title" style="color:var(--fg-inverse)">Milestones &amp; Moments</h2>
     </div>
-    <div class="timeline">
-      <div class="milestone">
+    <div class="timeline" data-stagger>
+      <div class="milestone" data-animate="fade-up">
         <div class="milestone-left">
           <span class="milestone-year">2021</span>
           <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
@@ -858,7 +1118,7 @@
           <p class="milestone-desc">Began studying at Zhongnan University of Economics and Law, discovering a passion for code and creative problem-solving.</p>
         </div>
       </div>
-      <div class="milestone">
+      <div class="milestone" data-animate="fade-up">
         <div class="milestone-left">
           <span class="milestone-year">2023</span>
           <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
@@ -869,7 +1129,7 @@
           <p class="milestone-desc">Published first tools on GitHub &mdash; from clipboard managers to automation scripts. The thrill of building in public.</p>
         </div>
       </div>
-      <div class="milestone">
+      <div class="milestone" data-animate="fade-up">
         <div class="milestone-left">
           <span class="milestone-year">2024</span>
           <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
@@ -880,7 +1140,7 @@
           <p class="milestone-desc">Took on the role of Full-Stack Developer, diving deep into AI-powered developer tools and workflow automation.</p>
         </div>
       </div>
-      <div class="milestone">
+      <div class="milestone" data-animate="fade-up">
         <div class="milestone-left">
           <span class="milestone-year">2025</span>
           <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
@@ -895,23 +1155,23 @@
   </section>
 
   <!-- CTA -->
-  <section class="cta fade-in" id="contact">
-    <i data-lucide="diamond" class="diamond-icon" style="width:20px;height:20px;"></i>
-    <div class="cta-header">
+  <section class="cta" id="contact">
+    <i data-lucide="diamond" class="diamond-icon" data-animate="zoom-in" style="width:20px;height:20px;"></i>
+    <div class="cta-header" data-animate="fade-up">
       <span class="eyebrow">GET IN TOUCH</span>
       <h2 class="cta-title">Let&rsquo;s Build Something Together</h2>
       <p class="cta-subtitle">Whether it&rsquo;s a collaboration, a conversation about AI, or just a friendly hello &mdash; I&rsquo;d love to hear from you.</p>
     </div>
-    <a href="mailto:1124774683@qq.com" class="cta-btn">
+    <a href="mailto:1124774683@qq.com" class="cta-btn" data-animate="fade-up">
       <i data-lucide="mail" style="width:18px;height:18px;"></i>
       Say Hello
     </a>
-    <div class="cta-divider-row">
+    <div class="cta-divider-row" data-animate="fade-in">
       <div class="cta-divider-line"></div>
       <span class="cta-divider-or">or</span>
       <div class="cta-divider-line"></div>
     </div>
-    <div class="cta-socials">
+    <div class="cta-socials" data-animate="fade-up">
       <a href="https://github.com/TIANQIAN1238" target="_blank" class="cta-social">
         <i data-lucide="github" style="width:20px;height:20px;"></i>
         <span>GitHub</span>
@@ -932,15 +1192,15 @@
         <span>ORCID</span>
       </a>
     </div>
-    <span class="cta-email">1124774683@qq.com</span>
-    <div class="cta-closing">
+    <span class="cta-email" data-animate="fade-in">1124774683@qq.com</span>
+    <div class="cta-closing" data-animate="fade-up">
       <div class="cta-closing-line"></div>
       <span class="cta-closing-text">Coding from everywhere, building for everyone.</span>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" data-animate="fade-up">
     <div class="footer-top">
       <div class="footer-left">
         <span class="footer-name">Ethan Lane</span>
@@ -980,16 +1240,139 @@
     // Initialize Lucide icons
     lucide.createIcons();
 
-    // Fade-in on scroll
-    const observer = new IntersectionObserver((entries) => {
+    // === Scroll-based reveal animations ===
+    const animateObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          animateObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('[data-animate]').forEach(el => animateObserver.observe(el));
+
+    // === Legacy fade-in support ===
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          fadeObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+    // === Counter animation for stats ===
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute('data-count'), 10);
+      const suffix = el.textContent.replace(/[0-9]/g, '').trim();
+      const duration = 1800;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(eased * target);
+
+        if (target >= 1000) {
+          el.textContent = current.toLocaleString() + '+';
+        } else if (target < 10) {
+          el.textContent = current + '+';
+        } else {
+          el.textContent = current + '+';
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.classList.add('counted');
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+    // === Diamond icon spin on scroll ===
+    const diamondObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          diamondObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.diamond-icon').forEach(el => diamondObserver.observe(el));
+
+    // === Timeline milestone line fill ===
+    const milestoneObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          milestoneObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.milestone').forEach(el => milestoneObserver.observe(el));
+
+    // === Hero parallax on scroll ===
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg) {
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollY = window.scrollY;
+            if (scrollY < window.innerHeight) {
+              heroBg.style.transform = 'scale(' + (1 + scrollY * 0.0003) + ') translateY(' + (scrollY * 0.3) + 'px)';
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+
+    // === Nav background on scroll ===
+    const nav = document.querySelector('.hero-nav');
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 100) {
+          nav.style.background = 'rgba(45, 41, 38, 0.95)';
+          nav.style.backdropFilter = 'blur(10px)';
+        } else {
+          nav.style.background = 'transparent';
+          nav.style.backdropFilter = 'none';
+        }
+      }, { passive: true });
+    }
+
+    // === Smooth scroll for anchor links ===
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   </script>
 </body>
 </html>
