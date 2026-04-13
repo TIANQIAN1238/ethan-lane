@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethan Lane — Full-Stack Developer & AI Toolmaker</title>
+  <meta name="description" content="Ethan Lane is a full-stack developer and AI toolmaker based in Wuhan, China. Building next-gen developer tools at Simen AI.">
+  <meta property="og:title" content="Ethan Lane — Full-Stack Developer & AI Toolmaker">
+  <meta property="og:description" content="Building next-gen AI workflow engines and developer tools.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@tianqian1238">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Newsreader:ital,wght@0,400;0,500;1,400&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* === Design Tokens === */
+    :root {
+      --surface-primary: #F5F2E9;
+      --surface-inverse: #2D2926;
+      --fg-primary: #2D2926;
+      --fg-secondary: #5E5954;
+      --fg-inverse: #F5F2E9;
+      --fg-muted: #A09A90;
+      --accent: #7D6B3D;
+      --border: #DCD8CB;
+      --border-dark: #3D3A36;
+
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Newsreader', serif;
+      --font-caption: 'Geist', sans-serif;
+      --font-mono: 'Geist Mono', monospace;
+    }
+
+    /* === Reset === */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      color: var(--fg-primary);
+      background: var(--surface-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+
+    /* === Utility === */
+    .max-w { max-width: 1440px; margin: 0 auto; }
+    .eyebrow {
+      font-family: var(--font-caption);
+      font-size: 13px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 400;
+    }
+    .accent-link {
+      font-family: var(--font-caption);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      transition: opacity 0.2s;
+    }
+    .accent-link:hover { opacity: 0.7; }
+
+    /* === Hero === */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      max-height: 900px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1764096534662-a194a348c4a0?w=1440&q=80') center/cover no-repeat;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45, 41, 38, 0.5);
+    }
+    .hero-nav {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 80px;
+      z-index: 10;
+    }
+    .hero-nav-brand {
+      font-family: var(--font-caption);
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--fg-inverse);
+    }
+    .hero-nav-links { display: flex; gap: 32px; }
+    .hero-nav-links a {
+      font-family: var(--font-caption);
+      font-size: 14px;
+      color: var(--fg-inverse);
+      transition: opacity 0.2s;
+    }
+    .hero-nav-links a:hover { opacity: 0.7; }
+    .hero-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 24px; z-index: 5;
+    }
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--fg-inverse);
+      letter-spacing: 6px;
+    }
+    .hero-line { width: 60px; height: 1px; background: var(--accent); }
+    .hero-subtitle {
+      font-family: var(--font-body);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--fg-inverse);
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 32px;
+      border: 1px solid var(--fg-inverse);
+      border-radius: 4px;
+      font-family: var(--font-caption);
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: var(--fg-inverse);
+      transition: all 0.3s;
+    }
+    .hero-cta:hover { background: var(--fg-inverse); color: var(--surface-inverse); }
+    .hero-labels {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      display: flex; align-items: center; gap: 16px;
+      padding: 20px 80px; z-index: 5;
+    }
+    .hero-label {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--fg-inverse);
+    }
+    .hero-label-div { width: 1px; height: 12px; background: var(--fg-inverse); }
+
+    /* === About === */
+    .about {
+      display: flex; gap: 80px;
+      padding: 100px 120px;
+      background: var(--surface-primary);
+    }
+    .about-photo {
+      flex-shrink: 0; width: 500px; height: 600px;
+      overflow: hidden;
+    }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-text {
+      flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 32px;
+    }
+    .about-headline {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      color: var(--fg-primary);
+    }
+    .about-para {
+      font-size: 17px; line-height: 1.7; color: var(--fg-secondary);
+    }
+    .about-divider { width: 60px; height: 1px; background: var(--border); }
+    .about-tech { display: flex; gap: 32px; }
+    .about-tech-item { display: flex; flex-direction: column; gap: 8px; }
+    .about-tech-label {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--accent);
+    }
+    .about-tech-value {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--fg-primary);
+    }
+
+    /* === Stats === */
+    .stats {
+      display: flex; justify-content: space-around; align-items: center;
+      padding: 60px 120px;
+      background: var(--surface-inverse);
+    }
+    .stat { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      color: var(--fg-inverse);
+    }
+    .stat-label {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: var(--accent);
+    }
+    .stat-div { width: 1px; height: 60px; background: var(--border-dark); }
+
+    /* === Projects === */
+    .projects {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 100px 120px; gap: 80px;
+      background: var(--surface-primary);
+    }
+    .projects-header { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .project-row {
+      display: flex; align-items: center; gap: 60px; width: 100%;
+    }
+    .project-row.reverse { flex-direction: row-reverse; }
+    .project-img { flex-shrink: 0; width: 520px; height: 360px; overflow: hidden; }
+    .project-text { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .project-label {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      letter-spacing: 4px;
+      color: var(--accent);
+    }
+    .project-title {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      color: var(--fg-primary);
+    }
+    .project-desc {
+      font-size: 16px; line-height: 1.7; color: var(--fg-secondary);
+    }
+    .diamond-icon { color: var(--accent); }
+
+    /* === Philosophy === */
+    .philosophy {
+      position: relative; height: 600px; overflow: hidden;
+      background: var(--surface-inverse);
+    }
+    .philosophy-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1650871778463-71922f196eb6?w=1440&q=80') center/cover no-repeat;
+    }
+    .philosophy-overlay {
+      position: absolute; inset: 0;
+      background: rgba(45, 41, 38, 0.56);
+    }
+    .philosophy-content {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      display: flex; flex-direction: column; align-items: center; gap: 32px;
+      max-width: 800px; width: 100%; text-align: center;
+    }
+    .philosophy-quote-mark {
+      font-family: var(--font-heading);
+      font-size: 120px;
+      color: var(--accent);
+      opacity: 0.5;
+      line-height: 0.6;
+    }
+    .philosophy-quote {
+      font-family: var(--font-heading);
+      font-size: 36px;
+      font-style: italic;
+      color: var(--fg-inverse);
+      line-height: 1.5;
+    }
+    .philosophy-attr {
+      font-family: var(--font-caption);
+      font-size: 14px;
+      letter-spacing: 2px;
+      color: var(--accent);
+    }
+    .philosophy-line { width: 40px; height: 1px; background: var(--accent); }
+
+    /* === Bento Grid === */
+    .bento {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 100px 120px; gap: 48px;
+      background: var(--surface-primary);
+    }
+    .bento-header { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .bento-row { display: flex; gap: 24px; width: 100%; height: 280px; }
+    .bento-card {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 40px; gap: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .bento-card.large { flex: 1; position: relative; }
+    .bento-card.large-bg {
+      background: url('https://images.unsplash.com/photo-1687392946857-96c2b7f94b0d?w=800&q=80') center/cover no-repeat;
+    }
+    .bento-card.large::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(45,41,38,0.9), rgba(45,41,38,0.3));
+      z-index: 0;
+    }
+    .bento-card.large > * { position: relative; z-index: 1; }
+    .bento-card.outlined { border: 1px solid var(--border); width: 360px; flex-shrink: 0; }
+    .bento-card.accent-bg { flex: 1; background: var(--accent); }
+    .bento-card.dark-bg { background: var(--surface-inverse); width: 280px; flex-shrink: 0; align-items: center; justify-content: center; }
+    .bento-card-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+    }
+    .bento-card-desc {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .bento-card-list {
+      font-family: var(--font-caption);
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--fg-secondary);
+    }
+
+    /* === Blog === */
+    .blog {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 100px 120px; gap: 60px;
+      background: var(--surface-primary);
+    }
+    .blog-header { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .blog-grid { display: flex; gap: 32px; width: 100%; }
+    .blog-card { flex: 1; border: 1px solid var(--border); overflow: hidden; }
+    .blog-card-img { height: 220px; overflow: hidden; }
+    .blog-card-body { padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+    .blog-card-date {
+      font-family: var(--font-caption);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      color: var(--accent);
+    }
+    .blog-card-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      line-height: 1.3;
+    }
+    .blog-card-excerpt {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--fg-secondary);
+    }
+    .twitter-section { width: 100%; padding-top: 48px; display: flex; flex-direction: column; gap: 32px; }
+    .twitter-divider { width: 100%; height: 1px; background: var(--border); }
+    .twitter-header { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+    .twitter-left { display: flex; align-items: center; gap: 12px; }
+    .twitter-left span {
+      font-family: var(--font-caption);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .tweets-row { display: flex; gap: 24px; width: 100%; }
+    .tweet-card {
+      flex: 1; border: 1px solid var(--border);
+      padding: 24px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .tweet-top { display: flex; align-items: center; gap: 10px; }
+    .tweet-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .tweet-name {
+      font-family: var(--font-caption);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .tweet-handle {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      color: var(--fg-secondary);
+    }
+    .tweet-content { font-size: 15px; line-height: 1.6; }
+    .tweet-meta {
+      font-family: var(--font-caption);
+      font-size: 11px;
+      color: var(--fg-secondary);
+    }
+
+    /* === Timeline === */
+    .timeline-section {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 100px 120px; gap: 60px;
+      background: var(--surface-inverse);
+    }
+    .timeline-header { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .timeline { width: 900px; display: flex; flex-direction: column; }
+    .milestone { display: flex; gap: 40px; }
+    .milestone-left {
+      width: 120px; flex-shrink: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .milestone-year {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      color: var(--accent);
+    }
+    .milestone-line { width: 1px; align-self: stretch; background: var(--border-dark); }
+    .milestone-right {
+      flex: 1; display: flex; flex-direction: column; gap: 8px;
+      padding-bottom: 48px;
+    }
+    .milestone:last-child .milestone-right { padding-bottom: 0; }
+    .milestone-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      color: var(--fg-inverse);
+    }
+    .milestone-desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--fg-muted);
+    }
+
+    /* === CTA === */
+    .cta {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 120px;
+      gap: 48px;
+      background: var(--surface-primary);
+    }
+    .cta-header { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+    .cta-title {
+      font-family: var(--font-heading);
+      font-size: 44px;
+      text-align: center;
+      max-width: 700px;
+      line-height: 1.2;
+    }
+    .cta-subtitle {
+      font-family: var(--font-body);
+      font-size: 17px;
+      font-style: italic;
+      color: var(--fg-secondary);
+      text-align: center;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 40px;
+      background: var(--surface-inverse);
+      color: var(--fg-inverse);
+      border-radius: 4px;
+      font-family: var(--font-caption);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: opacity 0.2s;
+      border: none; cursor: pointer;
+    }
+    .cta-btn:hover { opacity: 0.85; }
+    .cta-divider-row { display: flex; align-items: center; gap: 16px; width: 240px; }
+    .cta-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .cta-divider-or {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--fg-secondary);
+    }
+    .cta-socials { display: flex; align-items: center; gap: 32px; }
+    .cta-social { display: flex; align-items: center; gap: 10px; }
+    .cta-social span {
+      font-family: var(--font-caption);
+      font-size: 14px;
+    }
+    .cta-sep { font-family: var(--font-body); font-size: 16px; color: var(--border); }
+    .cta-email {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--fg-secondary);
+      letter-spacing: 1px;
+    }
+    .cta-closing {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      padding-top: 32px;
+    }
+    .cta-closing-line { width: 40px; height: 1px; background: var(--border); }
+    .cta-closing-text {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-style: italic;
+      color: var(--fg-secondary);
+    }
+
+    /* === Footer === */
+    .footer {
+      background: var(--surface-inverse);
+      padding: 80px 120px 60px;
+      display: flex; flex-direction: column; gap: 48px;
+    }
+    .footer-top { display: flex; justify-content: space-between; }
+    .footer-left { max-width: 400px; display: flex; flex-direction: column; gap: 20px; }
+    .footer-name {
+      font-family: var(--font-heading);
+      font-size: 28px;
+      color: var(--fg-inverse);
+    }
+    .footer-bio {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--fg-muted);
+    }
+    .footer-col { display: flex; flex-direction: column; gap: 16px; }
+    .footer-col-label {
+      font-family: var(--font-caption);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--accent);
+    }
+    .footer-col a {
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--fg-inverse);
+      transition: opacity 0.2s;
+    }
+    .footer-col a:hover { opacity: 0.7; }
+    .footer-social-link { display: flex; align-items: center; gap: 10px; }
+    .footer-divider { width: 100%; height: 1px; background: var(--border-dark); }
+    .footer-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .footer-copyright {
+      font-family: var(--font-caption);
+      font-size: 12px;
+      color: var(--fg-secondary);
+    }
+    .footer-quote {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-style: italic;
+      color: var(--fg-secondary);
+    }
+
+    /* === Responsive === */
+    @media (max-width: 1024px) {
+      .hero-nav { padding: 24px 40px; }
+      .hero-labels { padding: 20px 40px; }
+      .hero-title { font-size: 52px; }
+      .about { flex-direction: column; padding: 60px 40px; gap: 40px; }
+      .about-photo { width: 100%; height: 400px; }
+      .stats { flex-wrap: wrap; padding: 40px; gap: 32px; }
+      .stat-div { display: none; }
+      .projects { padding: 60px 40px; gap: 60px; }
+      .project-row, .project-row.reverse { flex-direction: column; }
+      .project-img { width: 100%; height: 300px; }
+      .bento { padding: 60px 40px; }
+      .bento-row { flex-direction: column; height: auto; }
+      .bento-card.outlined, .bento-card.dark-bg { width: 100%; }
+      .bento-card { min-height: 200px; }
+      .blog { padding: 60px 40px; }
+      .blog-grid { flex-direction: column; }
+      .tweets-row { flex-direction: column; }
+      .timeline-section { padding: 60px 40px; }
+      .timeline { width: 100%; }
+      .cta { padding: 60px 40px; }
+      .footer { padding: 60px 40px 40px; }
+      .footer-top { flex-direction: column; gap: 40px; }
+      .philosophy-quote { font-size: 28px; }
+      .philosophy-content { padding: 0 40px; }
+    }
+
+    @media (max-width: 640px) {
+      .hero-title { font-size: 36px; letter-spacing: 3px; }
+      .hero-nav-links { display: none; }
+      .hero-labels { display: none; }
+      .section-title { font-size: 32px; }
+      .cta-title { font-size: 32px; }
+      .milestone { flex-direction: column; gap: 16px; }
+      .milestone-line { display: none; }
+      .about-tech { flex-direction: column; }
+    }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <nav class="hero-nav">
+      <span class="hero-nav-brand">ETHAN LANE</span>
+      <div class="hero-nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+    <div class="hero-center">
+      <h1 class="hero-title">ETHAN LANE</h1>
+      <div class="hero-line"></div>
+      <p class="hero-subtitle">Full-Stack Developer &amp; AI Toolmaker</p>
+      <a href="#projects" class="hero-cta">EXPLORE MY WORK</a>
+    </div>
+    <div class="hero-labels">
+      <span class="hero-label">SIMEN AI</span>
+      <span class="hero-label-div"></span>
+      <span class="hero-label">WUHAN, CHINA</span>
+      <span class="hero-label-div"></span>
+      <span class="hero-label">OPEN SOURCE</span>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about fade-in" id="about">
+    <div class="about-photo">
+      <img src="https://images.unsplash.com/photo-1759541453742-086a8511482f?w=600&q=80" alt="Workspace">
+    </div>
+    <div class="about-text">
+      <span class="eyebrow">ABOUT</span>
+      <h2 class="about-headline">Crafting Digital Experiences with Purpose</h2>
+      <p class="about-para">I'm Ethan Lane, a full-stack engineer based in Wuhan, China. Currently at Simen AI, I build AI-powered developer tools that transform how people work with code.</p>
+      <p class="about-para">My passion lies at the intersection of elegant interfaces and intelligent automation &mdash; from Electron desktop apps to LangChain-powered AI agents. I believe great tools should feel invisible.</p>
+      <div class="about-divider"></div>
+      <div class="about-tech">
+        <div class="about-tech-item">
+          <span class="about-tech-label">FRONTEND</span>
+          <span class="about-tech-value">React, Vue, TypeScript</span>
+        </div>
+        <div class="about-tech-item">
+          <span class="about-tech-label">BACKEND</span>
+          <span class="about-tech-value">Node.js, Go, NestJS</span>
+        </div>
+        <div class="about-tech-item">
+          <span class="about-tech-label">AI &amp; TOOLS</span>
+          <span class="about-tech-value">Claude, LangChain, MCP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats fade-in">
+    <div class="stat">
+      <span class="stat-num">1.4K+</span>
+      <span class="stat-label">GITHUB STARS</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <span class="stat-num">3+</span>
+      <span class="stat-label">YEARS BUILDING</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <span class="stat-num">20+</span>
+      <span class="stat-label">OPEN SOURCE REPOS</span>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat">
+      <span class="stat-num">&infin;</span>
+      <span class="stat-label">CURIOSITY</span>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="projects fade-in" id="projects">
+    <div class="projects-header">
+      <span class="eyebrow">WHAT I DO</span>
+      <h2 class="section-title">Craft, Code &amp; Create</h2>
+    </div>
+    <i data-lucide="diamond" class="diamond-icon" style="width:20px;height:20px;"></i>
+
+    <div class="project-row">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1516192518150-0d8fee5425e3?w=600&q=80" alt="AI Engineering">
+      </div>
+      <div class="project-text">
+        <span class="project-label">01 &mdash; AI ENGINEERING</span>
+        <h3 class="project-title">Intelligent Tools That Think Ahead</h3>
+        <p class="project-desc">Building AI-powered developer tools at Simen AI &mdash; from LangChain agents to MCP integrations, crafting workflows that transform how people interact with code and ideas.</p>
+        <a href="https://simen.ai/en" target="_blank" class="accent-link">Explore my work at Simen AI &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-row reverse">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1648134859175-78b41b4db186?w=600&q=80" alt="Interface Craft">
+      </div>
+      <div class="project-text">
+        <span class="project-label">02 &mdash; INTERFACE CRAFT</span>
+        <h3 class="project-title">Pixels with Purpose</h3>
+        <p class="project-desc">Obsessed with animation-driven UX and high-polish interfaces. From React dashboards to Electron desktop apps, every pixel is placed with intention and every transition tells a story.</p>
+        <a href="#" class="accent-link">See the philosophy in action &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-row">
+      <div class="project-img">
+        <img src="https://images.unsplash.com/photo-1678345201361-f070f85b62a5?w=600&q=80" alt="Open Source">
+      </div>
+      <div class="project-text">
+        <span class="project-label">03 &mdash; OPEN SOURCE &amp; COMMUNITY</span>
+        <h3 class="project-title">Code That Connects</h3>
+        <p class="project-desc">A firm believer in open-source culture and the power of building in public. Contributing to developer communities, sharing tools freely, and connecting with builders worldwide through GitHub and beyond.</p>
+        <a href="https://github.com/TIANQIAN1238" target="_blank" class="accent-link">Find me on GitHub &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="philosophy fade-in">
+    <div class="philosophy-bg"></div>
+    <div class="philosophy-overlay"></div>
+    <div class="philosophy-content">
+      <span class="philosophy-quote-mark">&ldquo;</span>
+      <blockquote class="philosophy-quote">The best developer tool is the one you forget you are using.</blockquote>
+      <span class="philosophy-attr">&mdash; Ethan Lane</span>
+      <div class="philosophy-line"></div>
+    </div>
+  </section>
+
+  <!-- Bento Grid -->
+  <section class="bento fade-in">
+    <div class="bento-header">
+      <span class="eyebrow">MY TOOLKIT</span>
+      <h2 class="section-title">Tools of the Trade</h2>
+    </div>
+    <div class="bento-row">
+      <div class="bento-card large large-bg">
+        <h3 class="bento-card-title" style="color:var(--fg-inverse)">Frontend &amp; UI</h3>
+        <p class="bento-card-desc" style="color:var(--fg-muted)">React, Vue.js, TypeScript, Tailwind CSS, Vite &mdash; crafting interfaces that feel alive with animation-driven UX.</p>
+      </div>
+      <div class="bento-card outlined">
+        <h3 class="bento-card-title">Backend</h3>
+        <p class="bento-card-list">Node.js &middot; NestJS &middot; Go &middot; PostgreSQL &middot; Prisma</p>
+      </div>
+    </div>
+    <div class="bento-row">
+      <div class="bento-card outlined">
+        <h3 class="bento-card-title">Desktop</h3>
+        <p class="bento-card-list">Electron &middot; Tauri &middot; Rust &middot; macOS</p>
+      </div>
+      <div class="bento-card accent-bg">
+        <h3 class="bento-card-title" style="color:var(--fg-inverse)">AI &amp; Agents</h3>
+        <p class="bento-card-desc" style="color:rgba(245,242,233,0.8)">OpenAI, Claude, LangChain, MCP &mdash; building intelligent workflows that think ahead.</p>
+      </div>
+      <div class="bento-card dark-bg">
+        <i data-lucide="terminal" style="width:32px;height:32px;color:var(--accent)"></i>
+        <span style="font-family:var(--font-caption);font-size:13px;color:var(--fg-inverse)">VS Code API</span>
+        <span style="font-family:var(--font-caption);font-size:11px;color:var(--fg-muted)">Extensions &amp; Tooling</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="blog fade-in" id="blog">
+    <div class="blog-header">
+      <span class="eyebrow">THOUGHTS &amp; WRITING</span>
+      <h2 class="section-title">From the Workshop</h2>
+      <p style="font-family:var(--font-body);font-size:17px;font-style:italic;color:var(--fg-secondary);text-align:center;max-width:520px;line-height:1.6">Notes on building tools, exploring AI, and the craft of software engineering.</p>
+      <i data-lucide="diamond" class="diamond-icon" style="width:18px;height:18px;"></i>
+    </div>
+    <div class="blog-grid">
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1544099858-75feeb57f01b?w=500&q=80" alt="AI Agents">
+        </div>
+        <div class="blog-card-body">
+          <span class="blog-card-date">APRIL 2026</span>
+          <h3 class="blog-card-title">Building AI Agents That Actually Work</h3>
+          <p class="blog-card-excerpt">Lessons learned from months of building LangChain-powered workflows and MCP integrations at Simen AI.</p>
+          <a href="#" class="accent-link">Read more &rarr;</a>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1773349807434-374473797148?w=500&q=80" alt="Electron vs Tauri">
+        </div>
+        <div class="blog-card-body">
+          <span class="blog-card-date">MARCH 2026</span>
+          <h3 class="blog-card-title">Why I Switched from Electron to Tauri (And Back)</h3>
+          <p class="blog-card-excerpt">A deep dive into the trade-offs between Electron and Tauri for cross-platform desktop applications.</p>
+          <a href="#" class="accent-link">Read more &rarr;</a>
+        </div>
+      </article>
+      <article class="blog-card">
+        <div class="blog-card-img">
+          <img src="https://images.unsplash.com/photo-1741310652069-da1e5ecc0109?w=500&q=80" alt="Prompt Engineering">
+        </div>
+        <div class="blog-card-body">
+          <span class="blog-card-date">FEBRUARY 2026</span>
+          <h3 class="blog-card-title">The Art of Prompt Engineering for Developer Tools</h3>
+          <p class="blog-card-excerpt">How thoughtful prompt design can make AI-powered tools feel invisible and genuinely useful.</p>
+          <a href="#" class="accent-link">Read more &rarr;</a>
+        </div>
+      </article>
+    </div>
+    <a href="#" class="accent-link" style="font-size:14px;letter-spacing:1px;">View all posts &rarr;</a>
+
+    <!-- Twitter -->
+    <div class="twitter-section">
+      <div class="twitter-divider"></div>
+      <div class="twitter-header">
+        <div class="twitter-left">
+          <i data-lucide="twitter" style="width:20px;height:20px;"></i>
+          <span>Latest from @tianqian1238</span>
+        </div>
+        <a href="https://x.com/tianqian1238" target="_blank" class="accent-link">Follow on X &rarr;</a>
+      </div>
+      <div class="tweets-row">
+        <div class="tweet-card">
+          <div class="tweet-top">
+            <div class="tweet-avatar"></div>
+            <div>
+              <div class="tweet-name">Ethan Lane</div>
+              <div class="tweet-handle">@tianqian1238</div>
+            </div>
+          </div>
+          <p class="tweet-content">Just shipped VibeClip-Pro v2.0 &#x1F680; AI-powered clipboard with smart categorization. The feeling when your own tool saves you 30 min/day is unmatched.</p>
+          <span class="tweet-meta">2:34 PM &middot; Apr 10, 2026</span>
+        </div>
+        <div class="tweet-card">
+          <div class="tweet-top">
+            <div class="tweet-avatar"></div>
+            <div>
+              <div class="tweet-name">Ethan Lane</div>
+              <div class="tweet-handle">@tianqian1238</div>
+            </div>
+          </div>
+          <p class="tweet-content">Hot take: the best developer tool is the one you forget you're using. That's the bar I set for everything I build at Simen AI.</p>
+          <span class="tweet-meta">11:20 AM &middot; Apr 7, 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline-section fade-in">
+    <div class="timeline-header">
+      <span class="eyebrow">THE JOURNEY</span>
+      <h2 class="section-title" style="color:var(--fg-inverse)">Milestones &amp; Moments</h2>
+    </div>
+    <div class="timeline">
+      <div class="milestone">
+        <div class="milestone-left">
+          <span class="milestone-year">2021</span>
+          <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
+        </div>
+        <div class="milestone-line"></div>
+        <div class="milestone-right">
+          <h3 class="milestone-title">Started at Zhongnan University</h3>
+          <p class="milestone-desc">Began studying at Zhongnan University of Economics and Law, discovering a passion for code and creative problem-solving.</p>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-left">
+          <span class="milestone-year">2023</span>
+          <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
+        </div>
+        <div class="milestone-line"></div>
+        <div class="milestone-right">
+          <h3 class="milestone-title">First Open Source Projects</h3>
+          <p class="milestone-desc">Published first tools on GitHub &mdash; from clipboard managers to automation scripts. The thrill of building in public.</p>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-left">
+          <span class="milestone-year">2024</span>
+          <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
+        </div>
+        <div class="milestone-line"></div>
+        <div class="milestone-right">
+          <h3 class="milestone-title">Joined Simen AI</h3>
+          <p class="milestone-desc">Took on the role of Full-Stack Developer, diving deep into AI-powered developer tools and workflow automation.</p>
+        </div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-left">
+          <span class="milestone-year">2025</span>
+          <i data-lucide="diamond" style="width:12px;height:12px;color:var(--accent)"></i>
+        </div>
+        <div class="milestone-line"></div>
+        <div class="milestone-right">
+          <h3 class="milestone-title">Building the Future</h3>
+          <p class="milestone-desc">Exploring the frontier of AI agents, MCP integrations, and next-generation developer experiences. The best is yet to come.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta fade-in" id="contact">
+    <i data-lucide="diamond" class="diamond-icon" style="width:20px;height:20px;"></i>
+    <div class="cta-header">
+      <span class="eyebrow">GET IN TOUCH</span>
+      <h2 class="cta-title">Let&rsquo;s Build Something Together</h2>
+      <p class="cta-subtitle">Whether it&rsquo;s a collaboration, a conversation about AI, or just a friendly hello &mdash; I&rsquo;d love to hear from you.</p>
+    </div>
+    <a href="mailto:1124774683@qq.com" class="cta-btn">
+      <i data-lucide="mail" style="width:18px;height:18px;"></i>
+      Say Hello
+    </a>
+    <div class="cta-divider-row">
+      <div class="cta-divider-line"></div>
+      <span class="cta-divider-or">or</span>
+      <div class="cta-divider-line"></div>
+    </div>
+    <div class="cta-socials">
+      <a href="https://github.com/TIANQIAN1238" target="_blank" class="cta-social">
+        <i data-lucide="github" style="width:20px;height:20px;"></i>
+        <span>GitHub</span>
+      </a>
+      <span class="cta-sep">/</span>
+      <a href="https://x.com/tianqian1238" target="_blank" class="cta-social">
+        <i data-lucide="twitter" style="width:20px;height:20px;"></i>
+        <span>X / Twitter</span>
+      </a>
+      <span class="cta-sep">/</span>
+      <a href="https://codeblog.ai/" target="_blank" class="cta-social">
+        <i data-lucide="globe" style="width:20px;height:20px;"></i>
+        <span>Blog</span>
+      </a>
+      <span class="cta-sep">/</span>
+      <a href="https://orcid.org/0009-0005-9243-4301" target="_blank" class="cta-social">
+        <i data-lucide="file-text" style="width:20px;height:20px;"></i>
+        <span>ORCID</span>
+      </a>
+    </div>
+    <span class="cta-email">1124774683@qq.com</span>
+    <div class="cta-closing">
+      <div class="cta-closing-line"></div>
+      <span class="cta-closing-text">Coding from everywhere, building for everyone.</span>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-left">
+        <span class="footer-name">Ethan Lane</span>
+        <p class="footer-bio">Full-stack developer &amp; AI toolmaker based in Wuhan, China. Building the future of developer experience at Simen AI.</p>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">NAVIGATE</span>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#blog">Blog</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <span class="footer-col-label">CONNECT</span>
+        <a href="https://github.com/TIANQIAN1238" target="_blank" class="footer-social-link">
+          <i data-lucide="github" style="width:16px;height:16px;"></i> GitHub
+        </a>
+        <a href="https://x.com/tianqian1238" target="_blank" class="footer-social-link">
+          <i data-lucide="twitter" style="width:16px;height:16px;"></i> X / Twitter
+        </a>
+        <a href="mailto:1124774683@qq.com" class="footer-social-link">
+          <i data-lucide="mail" style="width:16px;height:16px;"></i> 1124774683@qq.com
+        </a>
+        <a href="https://codeblog.ai/" target="_blank" class="footer-social-link">
+          <i data-lucide="globe" style="width:16px;height:16px;"></i> codeblog.ai
+        </a>
+      </div>
+    </div>
+    <div class="footer-divider"></div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">&copy; 2026 Ethan Lane. Crafted with care in Wuhan.</span>
+      <span class="footer-quote">&ldquo;Coding from everywhere.&rdquo;</span>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
